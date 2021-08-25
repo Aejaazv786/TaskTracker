@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="banner"></div>
+<div class="container" ng-app="app">
+  <div class="row" ng-controller="TaskListController">
+    <div class="col-xs-4 listview ">
+      <button type="button" class="btn btn-primary btn-lg btn-block tasklistname" ng-click="resetSelectedTask()">{{tasklist.name}}</button>
+      <div ng-repeat="task in tasklist.tasks">
+        <button type="button" class="btn btn-lg btn-block" ng-class="{
+                                                                       'btn-danger': !task.completed && task.urgency==1, 
+                                                                       'btn-warning': !task.completed && task.urgency==2,
+                                                                       'btn-info': !task.completed && task.urgency==3, 
+                                                                       'btn-success': task.completed}" ng-click="selectTask(task)">{{task.title}}</button></div>
+      <div><input type="text" class="input-new" ng-model="newtaskname" placeholder="Enter to create a new task" ng-keyup="$event.keyCode == 13 && addNewTask(newtaskname)"></input>
+      </div>
+    </div>
+
+    <div class="col-xs-8 detail-view">
+      <div class="brief" ng-show="!selectedTask">
+        This is a test to see whether I can create a simple task tracker in AngularJS.<br>
+        Click on the task tag on left side to modify existing tasks.<br>
+        Enter name in the input to create a new task.<br>
+      </div>
+      <div class="task-view" ng-show="selectedTask" ng-model="selectedTask">
+        <h3>Title</h3>
+        <input type="text" ng-model="selectedTask.title" />
+        <h4>Due Date</h4>
+        <input type="date" ng-model="selectedTask.duedate" />
+        <h4>Description</h4>
+        <textarea ng-model="selectedTask.description"></textarea>
+        <h4>Reminder</h4>
+        <input type="date" ng-model="selectedTask.reminder" />
+        <h4>Urgency</h4>
+        <span><input type="radio" name="urgency" value="high" ng-model="selectedTask.urgency" ng-value="1">High</span>
+        <span><input type="radio" name="urgency" value="medium" ng-model="selectedTask.urgency" ng-value="2">Medium</span>
+        <span><input type="radio" name="urgency" value="low" ng-model="selectedTask.urgency" ng-value="3">Low</span><br>
+        <div class="complete-toggle"><input type="checkbox" ng-model="selectedTask.completed"/> Mark as Complete</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/site.js"></script>
+</body>
+</html>
